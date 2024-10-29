@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:aaele/constants/constants.dart';
@@ -54,7 +55,7 @@ class SubjectCard extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "${name.substring(0, 1).toUpperCase()}${name.substring(1)}",
+                    (name.length > 1) ? "${name.substring(0, 1).toUpperCase()}${name.substring(1)}" : "",
                     style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -63,7 +64,7 @@ class SubjectCard extends ConsumerWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    "Host: ${testBy.substring(0, 1).toUpperCase()}${testBy.substring(1)}",
+                    (testBy.length > 1) ? "Host: ${testBy.substring(0, 1).toUpperCase()}${testBy.substring(1)}" : "",
                     style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,

@@ -24,22 +24,22 @@ class MeetingModel {
   });
 
   factory MeetingModel.fromJson(Map<String, dynamic> json) => MeetingModel(
-        id: json['_id'] as String,
-        studentId: json['student_id'] as int,
-        meetId: json['meet_id'] as int,
-        textEmotions: (json['text_emotions'] as List)
+        id: json['_id'] ?? "",
+        studentId: json['student_id'] ?? 0,
+        meetId: json['meet_id'] ?? 0,
+        textEmotions: (json['text_emotions'] as List<dynamic>? ?? [])
             .map((e) => Emotion.fromJson(e))
             .toList(),
-        videoEmotions: (json['video_emotions'] as List)
+        videoEmotions: (json['video_emotions'] as List<dynamic>? ?? [])
             .map((e) => Emotion.fromJson(e))
             .toList(),
-        audioEmotions: (json['audio_emotions'] as List)
+        audioEmotions: (json['audio_emotions'] as List<dynamic>? ?? [])
             .map((e) => Emotion.fromJson(e))
             .toList(),
-        v: json['__v'] as int,
-        title: json['title'] as String,
-        hostName: json['host_name'] as String,
-        description: json['description'] as String,
+        v: json['__v'] ?? 0,
+        title: json['title'] ?? "",
+        hostName: json['host_name'] ?? "",
+        description: json['description'] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
@@ -72,11 +72,11 @@ class Emotion {
   });
 
   factory Emotion.fromJson(Map<String, dynamic> json) => Emotion(
-        happy: json['happy'] as int,
-        surprised: json['surprised'] as int,
-        confused: json['confused'] as int,
-        bored: json['bored'] as int,
-        pnf: json['pnf'] as int,
+        happy: json['happy'] ?? 0,
+        surprised: json['surprised'] ?? 0,
+        confused: json['confused'] ?? 0,
+        bored: json['bored'] ?? 0,
+        pnf: json['pnf'] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
