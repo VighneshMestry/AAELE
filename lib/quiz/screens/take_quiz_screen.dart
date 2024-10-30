@@ -1,20 +1,10 @@
 import 'dart:developer';
-import 'dart:io';
 
+import 'package:aaele/quiz/controller/quiz_controller.dart';
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
-
-// import 'package:socket_io_client/socket_io_client.dart' as IO;
-class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
-  }
-}
 
 class TakeQuizScreen extends ConsumerStatefulWidget {
   const TakeQuizScreen({super.key});
@@ -24,9 +14,7 @@ class TakeQuizScreen extends ConsumerStatefulWidget {
 }
 
 class _TakeQuizScreenState extends ConsumerState<TakeQuizScreen> {
-  // late IO.Socket socket;
-  List<ChatMessage> temp = [];
-  List<String> messages = [];
+  List<ChatMessage> messages = [];
   final test_id = "6719fb40f1230bb78e7c4740";
   ChatUser currentUser = ChatUser(id: "1", firstName: "Vighnesh");
   ChatUser geminiUser = ChatUser(
@@ -38,13 +26,11 @@ class _TakeQuizScreenState extends ConsumerState<TakeQuizScreen> {
   late final IO.Socket socket;
 
   void initializeSocketConnection() {
-    HttpOverrides.global = MyHttpOverrides();
-    socket = IO.io('wss://mood-lens-server.onrender.com', <String, dynamic>{
-      'transports': ['websocket'],
-      'autoConnect': false,
-    });
-
     try {
+      socket = IO.io('wss://mood-lens-server.onrender.com', <String, dynamic>{
+        'transports': ['websocket'],
+        'autoConnect': false,
+      });
       socket.connect();
     } catch (e) {
       log('Error connecting to server: $e');
@@ -53,95 +39,54 @@ class _TakeQuizScreenState extends ConsumerState<TakeQuizScreen> {
 
   void setUpSocketListeners() {
     socket.onConnect((_) {
-      print('Connected to the WebSocket server');
+      log('Connected to the WebSocket server');
+      log("emitting start_test");
+      socket.emit("start_test", {"test_id": test_id});
     });
 
     socket.onDisconnect((_) {
-      print('Disconnected from the WebSocket server');
+      log('Disconnected from the WebSocket server');
+    });
+
+    socket.on("response", (response) {
+      ChatMessage responseMessage = ChatMessage(
+          user: geminiUser,
+          createdAt: DateTime.now(),
+          text: response.toString());
+      messages = [responseMessage, ...messages];
+    });
+
+    socket.on("questions", (question) {
+      ChatMessage responseMessage = ChatMessage(
+          user: geminiUser,
+          createdAt: DateTime.now(),
+          text: question.toString());
+      messages = [responseMessage, ...messages];
     });
 
     socket.on('message', (data) {
-      print('Received message: $data');
+      log('Received message: $data');
     });
-
-    
   }
 
-  // late final Socket socket;
-  // var io = new Server();
-
-  // void connectToServer() {
-  //   socket = IO.io('wss://mood-lens-server.onrender.com', <String, dynamic>{
-  //     'transports': ['websocket'],
-  //     'autoConnect': false,
-  //     'reconnection': true,
-  //     'reconnectionAttempts': 5,
-  //     'reconnectionDelay': 2000,
-  //   });
-
-  //   socket.on('connect', (_) {
-  //     log('Connected to server');
-  //     // socket.emit('start_test', {'test_id': test_id}); // Ensure test_id is properly formatted
-  //   });
-
-  //   socket.on('questions', (question) {
-  //     // setState(() {
-  //     //   messages.add(question);
-  //     //   temp.add(ChatMessage(
-  //     //       user: geminiUser,
-  //     //       createdAt: DateTime.now(),
-  //     //       text: question.toString()));
-  //     // });
-  //     log('New Question: $question');
-
-  //     // Emit acknowledgment after receiving the question
-  //     // socket.emit('question_ack', {'acknowledgment': 'Question received'});
-  //     // socket.emit('ready_for_next', {'ready': 'Ready for next question'});
-  //   });
-
-  //   socket.on('disconnect', (_) {
-  //     log('Disconnected from server');
-  //   });
-
-  //   socket.on('connect_error', (error) {
-  //     log('Error connecting to server: $error'); // Log the error for debugging
-  //   });
-
-  //   socket.on('response', (response) {
-  //     log('New message: $response');
-  //     // setState(() {
-  //     //   messages.add(response.toString());
-  //     //   temp.add(ChatMessage(
-  //     //       user: geminiUser,
-  //     //       createdAt: DateTime.now(),
-  //     //       text: response.toString()));
-  //     // });
-  //   });
-
-  //   // Manually call connect after setting up the socket
-  //   try {
-  //     socket.connect();
-  //   } catch (e) {
-  //     log('Error connecting to server: $e');
-  //   }
-  //   log(socket.connected ? "True" : "False");
-  // }
+  @override
+  void dispose() {
+    socket.disconnect();
+    socket.close();
+    super.dispose();
+  }
 
   void sendMessage(ChatMessage message) {
-    setState(() {
-      messages.add(message.text);
-      temp.add(ChatMessage(
-          user: currentUser,
-          createdAt: DateTime.now(),
-          text: message.toString()));
-    });
+    messages.add(ChatMessage(
+        user: currentUser,
+        createdAt: DateTime.now(),
+        text: message.toString()));
     socket.emit('message', message.text);
   }
 
   @override
   void initState() {
     super.initState();
-    // connectToServer();
     initializeSocketConnection();
     setUpSocketListeners();
   }
@@ -152,7 +97,7 @@ class _TakeQuizScreenState extends ConsumerState<TakeQuizScreen> {
         body: DashChat(
       currentUser: currentUser,
       onSend: sendMessage,
-      messages: temp,
+      messages: messages,
       // typingUsers: [currentUser, geminiUser],
       inputOptions: const InputOptions(
           inputDecoration: InputDecoration(fillColor: Colors.yellow),
