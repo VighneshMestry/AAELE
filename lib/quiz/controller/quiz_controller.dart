@@ -1,21 +1,45 @@
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:dash_chat_2/dash_chat_2.dart';
 
-// final quizControllerProvider = StateNotifierProvider<QuizController, List<String>>((ref) {
+// // Define a StateNotifier to manage the list of messages
+// class QuizController extends StateNotifier<List<ChatMessage>> {
+//   QuizController() : super([]);
+
+//   // Add a new message to the list
+//   void addMessage(ChatMessage message) {
+//     state = [message, ...state];
+//   }
+
+//   // Replace the entire message list (if needed for updates)
+//   void updateMessages(List<ChatMessage> messages) {
+//     state = messages;
+//   }
+// }
+
+// // Provider for ChatController
+// final quizControllerProvider = StateNotifierProvider<QuizController, List<ChatMessage>>((ref) {
 //   return QuizController();
 // });
 
-// class QuizController extends StateNotifier<List<String>> {
-//   QuizController() : super([]);
+import 'package:dash_chat_2/dash_chat_2.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-//   void updateMessageList(List<String> list) {
-//     state = list;
-//   }
+final quizControllerProvider = StateNotifierProvider<QuizController, List<ChatMessage>>((ref) {
+  return QuizController();
+});
 
-//   void addItem(String item) {
-//     state = [item, ...state];
-//   }
+class QuizController extends StateNotifier<List<ChatMessage>> {
+  QuizController() : super([]);
 
-//   void removeItem(String item) {
-//     state = state.where((i) => i != item).toList();
-//   }
-// }
+  void updateMessageList(List<ChatMessage> list) {
+    state = list;
+  }
+
+  void addMessage(ChatMessage chatMessage) {
+    state = [chatMessage, ...state];
+  }
+
+  void removeItem(ChatMessage item) {
+    state = state.where((i) => i != item).toList();
+  }
+}

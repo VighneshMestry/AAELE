@@ -1,107 +1,260 @@
+// import 'dart:developer';
+
+// import 'package:aaele/quiz/controller/quiz_controller.dart';
+// import 'package:dash_chat_2/dash_chat_2.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:socket_io_client/socket_io_client.dart' as IO;
+
+// class TakeQuizScreen extends ConsumerStatefulWidget {
+//   const TakeQuizScreen({super.key});
+
+//   @override
+//   ConsumerState<ConsumerStatefulWidget> createState() => _TakeQuizScreenState();
+// }
+
+// class _TakeQuizScreenState extends ConsumerState<TakeQuizScreen> {
+//   final test_id = "6719fb40f1230bb78e7c4740";
+//   ChatUser currentUser = ChatUser(id: "1", firstName: "Vighnesh");
+//   ChatUser geminiUser = ChatUser(
+//       id: "2",
+//       firstName: "Gemini",
+//       profileImage:
+//           "https://play-lh.googleusercontent.com/dT-r_1Z9hUcif7CDSD5zOdOt4KodaGdtkbGszT6WPTqKQ-WxWxOepO6VX-B3YL290ydD=w240-h480-rw");
+
+//   late final IO.Socket socket;
+//   final url = "ws://192.168.0.105:5000";
+//   // final wsUrl = 'wss://mood-lens-server.onrender.com';
+//   void initializeSocketConnection() {
+//     try {
+//       socket = IO.io(url, <String, dynamic>{
+//         'transports': ['websocket'],
+//         'autoConnect': false,
+//       });
+//       socket.connect();
+//     } catch (e) {
+//       log('Error connecting to server: $e');
+//     }
+//   }
+
+//   void setUpSocketListeners() {
+//     socket.onConnect((_) {
+//       log('Connected to the WebSocket server');
+//       log("emitting start_test");
+//       socket.emit("start_test", {"test_id": test_id});
+//     });
+
+//     socket.onDisconnect((_) {
+//       log('Disconnected from the WebSocket server');
+//     });
+
+//     socket.on("response", (response) {
+//       log("Response ${response.toString()}");
+//       ChatMessage responseMessage = ChatMessage(
+//           user: geminiUser,
+//           createdAt: DateTime.now(),
+//           text: response.toString());
+//       _addMessage(responseMessage);
+//     });
+
+//     socket.on("questions", (question) {
+//       log("Question: ${question.toString()}");
+//       ChatMessage responseMessage = ChatMessage(
+//           user: geminiUser,
+//           createdAt: DateTime.now(),
+//           text: question.toString());
+//       _addMessage(responseMessage);
+//     });
+
+//     socket.on('message', (data) {
+//       // _loadingState(false);
+//       log('Received message: $data');
+//     });
+
+//     socket.on("error", (data) {
+//       // _loadingState(false);
+//       log("Error ${data.toString()}");
+//     });
+//   }
+
+//   void _addMessage(ChatMessage chatMessage) {
+//     ref.read(quizControllerProvider.notifier).addMessage(chatMessage);
+//   }
+
+//   @override
+//   void dispose() {
+//     socket.disconnect();
+//     socket.close();
+//     super.dispose();
+//   }
+
+//   void sendMessage(ChatMessage message) {
+//     _addMessage(message);
+//     socket.emit('message', message.text);
+//   }
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     initializeSocketConnection();
+//     setUpSocketListeners();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final messages = ref.watch(quizControllerProvider);
+//     // final loading = ref.watch(quizControllerProvider).loading;
+//     return Scaffold(
+//         body: DashChat(
+//       currentUser: currentUser,
+//       onSend: sendMessage,
+//       messages: messages,
+//       // typingUsers: [currentUser, geminiUser],
+//       inputOptions: const InputOptions(
+//           inputDecoration: InputDecoration(fillColor: Colors.yellow),
+//           textCapitalization: TextCapitalization.sentences),
+//     ));
+//     // return Scaffold(
+//     //   body: Column(
+//     //     children: [
+//     //       ListView.builder(
+//     //         itemCount: messages.length,
+//     //         itemBuilder: (context, index) {
+//     //           return Column(
+//     //             children: [
+//     //               Text("Message $index"),
+//     //               Text("User ${messages[index].user.firstName}"),
+//     //               Text("Message ${messages[index].text}")
+//     //             ],
+//     //           );
+//     //         },
+//     //       )
+//     //     ],
+//     //   ),
+//     // );
+//   }
+// }
+
+
 import 'dart:developer';
 
-import 'package:aaele/quiz/controller/quiz_controller.dart';
-import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
-class TakeQuizScreen extends ConsumerStatefulWidget {
-  const TakeQuizScreen({super.key});
-
+class SocketIOExample extends StatefulWidget {
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _TakeQuizScreenState();
+  _SocketIOExampleState createState() => _SocketIOExampleState();
 }
 
-class _TakeQuizScreenState extends ConsumerState<TakeQuizScreen> {
-  List<ChatMessage> messages = [];
+class _SocketIOExampleState extends State<SocketIOExample> {
+  final String serverUrl = 'ws://192.168.0.105:5000';
   final test_id = "6719fb40f1230bb78e7c4740";
-  ChatUser currentUser = ChatUser(id: "1", firstName: "Vighnesh");
-  ChatUser geminiUser = ChatUser(
-      id: "2",
-      firstName: "Gemini",
-      profileImage:
-          "https://play-lh.googleusercontent.com/dT-r_1Z9hUcif7CDSD5zOdOt4KodaGdtkbGszT6WPTqKQ-WxWxOepO6VX-B3YL290ydD=w240-h480-rw");
+  late io.Socket socket;
+  TextEditingController messageController = TextEditingController();
+  List<String> messages = [];
 
-  late final IO.Socket socket;
+  @override
+  void initState() {
+    super.initState();
 
-  void initializeSocketConnection() {
-    try {
-      socket = IO.io('wss://mood-lens-server.onrender.com', <String, dynamic>{
-        'transports': ['websocket'],
-        'autoConnect': false,
-      });
-      socket.connect();
-    } catch (e) {
-      log('Error connecting to server: $e');
-    }
-  }
+    // Initialize and connect to the socket server.
+    socket = io.io(serverUrl, <String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': false,
+    });
 
-  void setUpSocketListeners() {
+    socket.connect();
+
+    // Event listeners.
     socket.onConnect((_) {
-      log('Connected to the WebSocket server');
-      log("emitting start_test");
-      socket.emit("start_test", {"test_id": test_id});
+      log('Connected to the socket server');
+      log("start_test emitting");
+      socket.emit("start_test", {"test_id" : test_id});
     });
 
     socket.onDisconnect((_) {
-      log('Disconnected from the WebSocket server');
+      log('Disconnected from the socket server');
     });
 
     socket.on("response", (response) {
-      ChatMessage responseMessage = ChatMessage(
-          user: geminiUser,
-          createdAt: DateTime.now(),
-          text: response.toString());
-      messages = [responseMessage, ...messages];
+      log("Response ${response.toString()}");
+      setState(() {
+        messages.add(response);
+      });
     });
 
-    socket.on("questions", (question) {
-      ChatMessage responseMessage = ChatMessage(
-          user: geminiUser,
-          createdAt: DateTime.now(),
-          text: question.toString());
-      messages = [responseMessage, ...messages];
+    socket.on("questions", (data) {
+      log("Questions: ${data.toString()}");
+      setState(() {
+        messages.add(data);
+      });
     });
 
     socket.on('message', (data) {
-      log('Received message: $data');
+      setState(() {
+        messages.add(data);
+      });
     });
+  }
+
+  // Function to send a message to the server.
+  void sendMessage() {
+    String message = messageController.text;
+    if (message.isNotEmpty) {
+      socket.emit('message', message);
+      setState(() {
+        messages.add(message);
+      });
+      messageController.clear();
+    }
   }
 
   @override
   void dispose() {
     socket.disconnect();
-    socket.close();
+    socket.dispose();
     super.dispose();
-  }
-
-  void sendMessage(ChatMessage message) {
-    messages.add(ChatMessage(
-        user: currentUser,
-        createdAt: DateTime.now(),
-        text: message.toString()));
-    socket.emit('message', message.text);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    initializeSocketConnection();
-    setUpSocketListeners();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: DashChat(
-      currentUser: currentUser,
-      onSend: sendMessage,
-      messages: messages,
-      // typingUsers: [currentUser, geminiUser],
-      inputOptions: const InputOptions(
-          inputDecoration: InputDecoration(fillColor: Colors.yellow),
-          textCapitalization: TextCapitalization.sentences),
-    ));
+      appBar: AppBar(
+        title: Text('Socket.IO Chat Example'),
+      ),
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: ListView.builder(
+              itemCount: messages.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(messages[index]),
+                );
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: TextField(
+                    controller: messageController,
+                    decoration: InputDecoration(
+                      hintText: 'Enter your message',
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.send),
+                  onPressed: sendMessage,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

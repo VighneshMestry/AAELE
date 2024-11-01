@@ -4,6 +4,7 @@ import 'package:aaele/auth/screens/login_screen.dart';
 import 'package:aaele/Insights/screens/custom_bottom_bar.dart';
 import 'package:aaele/Insights/screens/attendance_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,7 +14,9 @@ void main() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var username = sharedPreferences.getString('name');
   log(username ?? "Not Stored");
-  runApp(MyApp(username: username ?? ""));
+  runApp(ProviderScope(
+    child: MyApp(username: username ?? ""),
+  ));
 }
 
 class MyApp extends StatelessWidget {
