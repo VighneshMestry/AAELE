@@ -140,14 +140,18 @@ import 'dart:developer';
 
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
-class SocketIOExample extends StatefulWidget {
+class SocketIOExample extends ConsumerStatefulWidget {
+  const SocketIOExample({super.key});
+
   @override
-  _SocketIOExampleState createState() => _SocketIOExampleState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _SocketIOExampleState();
 }
 
-class _SocketIOExampleState extends State<SocketIOExample> {
+class _SocketIOExampleState extends ConsumerState<SocketIOExample> {
+
   final String serverUrl = 'ws://192.168.0.105:5000';
   final test_id = "6719fb40f1230bb78e7c4740";
   late io.Socket socket;
