@@ -144,14 +144,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
-class SocketIOExample extends ConsumerStatefulWidget {
-  const SocketIOExample({super.key});
+class TakeQuizScreen extends ConsumerStatefulWidget {
+  const TakeQuizScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _SocketIOExampleState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _TakeQuizScreenState();
 }
 
-class _SocketIOExampleState extends ConsumerState<SocketIOExample> {
+class _TakeQuizScreenState extends ConsumerState<TakeQuizScreen> {
 
   // final String serverUrl = 'ws://192.168.0.105:5000';
   // final test_id = "6719fb40f1230bb78e7c4740";

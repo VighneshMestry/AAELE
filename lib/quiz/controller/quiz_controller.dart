@@ -56,17 +56,20 @@ class QuizController extends StateNotifier<List<ChatMessage>> {
 
     socket.onConnect((_) {
       log('Connected to the socket server');
+      log("start_test emitting");
       socket.emit("start_test", {"test_id": testId});
     });
 
     socket.onDisconnect((_) => log('Disconnected from the socket server'));
 
     socket.on("response", (response) {
+      log(response.toString());
       _addMessage(response.toString());
     });
 
-    socket.on("questions", (data) {
-      _addMessage(data.toString());
+    socket.on("questions", (question) {
+      log(question.toString());
+      _addMessage(question.toString());
     });
   }
 
@@ -80,6 +83,7 @@ class QuizController extends StateNotifier<List<ChatMessage>> {
   }
 
   void sendMessage(ChatMessage message) {
+    log("User message: ${message.text}");
     socket.emit('message', message.text);
     state = [message, ...state];
   }

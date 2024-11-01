@@ -27,7 +27,7 @@ class _LecturesDisplayScreenState extends ConsumerState<LecturesDisplayScreen> {
               Navigator.of(context).push(MaterialPageRoute(builder: (context) => DemoChatbot()));
             }, child: Text("New Chatbot")),
             ElevatedButton(onPressed: (){
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => SocketIOExample()));
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => TakeQuizScreen()));
             }, child: Text("Take Quiz")),
           ],
         )
