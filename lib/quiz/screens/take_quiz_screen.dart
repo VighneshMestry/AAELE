@@ -15,12 +15,12 @@
 
 // class _TakeQuizScreenState extends ConsumerState<TakeQuizScreen> {
 //   final test_id = "6719fb40f1230bb78e7c4740";
-//   ChatUser currentUser = ChatUser(id: "1", firstName: "Vighnesh");
-//   ChatUser geminiUser = ChatUser(
-//       id: "2",
-//       firstName: "Gemini",
-//       profileImage:
-//           "https://play-lh.googleusercontent.com/dT-r_1Z9hUcif7CDSD5zOdOt4KodaGdtkbGszT6WPTqKQ-WxWxOepO6VX-B3YL290ydD=w240-h480-rw");
+  // ChatUser currentUser = ChatUser(id: "1", firstName: "Vighnesh");
+  // ChatUser geminiUser = ChatUser(
+  //     id: "2",
+  //     firstName: "Gemini",
+  //     profileImage:
+  //         "https://play-lh.googleusercontent.com/dT-r_1Z9hUcif7CDSD5zOdOt4KodaGdtkbGszT6WPTqKQ-WxWxOepO6VX-B3YL290ydD=w240-h480-rw");
 
 //   late final IO.Socket socket;
 //   final url = "ws://192.168.0.105:5000";
@@ -104,16 +104,16 @@
 //   Widget build(BuildContext context) {
 //     final messages = ref.watch(quizControllerProvider);
 //     // final loading = ref.watch(quizControllerProvider).loading;
-//     return Scaffold(
-//         body: DashChat(
-//       currentUser: currentUser,
-//       onSend: sendMessage,
-//       messages: messages,
-//       // typingUsers: [currentUser, geminiUser],
-//       inputOptions: const InputOptions(
-//           inputDecoration: InputDecoration(fillColor: Colors.yellow),
-//           textCapitalization: TextCapitalization.sentences),
-//     ));
+    // return Scaffold(
+    //     body: DashChat(
+    //   currentUser: currentUser,
+    //   onSend: sendMessage,
+    //   messages: messages,
+    //   // typingUsers: [currentUser, geminiUser],
+    //   inputOptions: const InputOptions(
+    //       inputDecoration: InputDecoration(fillColor: Colors.yellow),
+    //       textCapitalization: TextCapitalization.sentences),
+    // ));
 //     // return Scaffold(
 //     //   body: Column(
 //     //     children: [
@@ -138,6 +138,7 @@
 
 import 'dart:developer';
 
+import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
@@ -151,7 +152,13 @@ class _SocketIOExampleState extends State<SocketIOExample> {
   final test_id = "6719fb40f1230bb78e7c4740";
   late io.Socket socket;
   TextEditingController messageController = TextEditingController();
-  List<String> messages = [];
+  List<ChatMessage> messages = [];
+  ChatUser currentUser = ChatUser(id: "1", firstName: "Vighnesh");
+  ChatUser geminiUser = ChatUser(
+      id: "2",
+      firstName: "Gemini",
+      profileImage:
+          "https://play-lh.googleusercontent.com/dT-r_1Z9hUcif7CDSD5zOdOt4KodaGdtkbGszT6WPTqKQ-WxWxOepO6VX-B3YL290ydD=w240-h480-rw");
 
   @override
   void initState() {
@@ -178,35 +185,34 @@ class _SocketIOExampleState extends State<SocketIOExample> {
 
     socket.on("response", (response) {
       log("Response ${response.toString()}");
+      ChatMessage message = ChatMessage(user: geminiUser, createdAt: DateTime.now(), text: response.toString());
       setState(() {
-        messages.add(response);
+        messages = [message, ...messages];
       });
     });
 
     socket.on("questions", (data) {
       log("Questions: ${data.toString()}");
+      ChatMessage message = ChatMessage(user: geminiUser, createdAt: DateTime.now(), text: data.toString());
       setState(() {
-        messages.add(data);
+        messages = [message, ...messages];
       });
     });
 
-    socket.on('message', (data) {
-      setState(() {
-        messages.add(data);
-      });
-    });
+    // socket.on('message', (data) {
+    //   setState(() {
+    //     messages.add(data);
+    //   });
+    // });
   }
 
   // Function to send a message to the server.
-  void sendMessage() {
-    String message = messageController.text;
-    if (message.isNotEmpty) {
-      socket.emit('message', message);
-      setState(() {
-        messages.add(message);
-      });
-      messageController.clear();
-    }
+  void sendMessage(ChatMessage message) {  
+    socket.emit('message', message.text);
+    setState(() {
+      messages = [message, ...messages];
+    });
+    
   }
 
   @override
@@ -222,39 +228,14 @@ class _SocketIOExampleState extends State<SocketIOExample> {
       appBar: AppBar(
         title: Text('Socket.IO Chat Example'),
       ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: ListView.builder(
-              itemCount: messages.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(messages[index]),
-                );
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: TextField(
-                    controller: messageController,
-                    decoration: InputDecoration(
-                      hintText: 'Enter your message',
-                    ),
-                  ),
-                ),
-                IconButton(
-                  icon: Icon(Icons.send),
-                  onPressed: sendMessage,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+      body: DashChat(
+      currentUser: currentUser,
+      onSend: sendMessage,
+      messages: messages,
+      // typingUsers: [currentUser, geminiUser],
+      inputOptions: const InputOptions(
+          inputDecoration: InputDecoration(fillColor: Colors.yellow),
+          textCapitalization: TextCapitalization.sentences),
+    ));
   }
 }
