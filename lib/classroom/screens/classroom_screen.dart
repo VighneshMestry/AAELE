@@ -73,7 +73,7 @@ class _ClassroomScreenState extends ConsumerState<ClassroomScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -81,7 +81,7 @@ class _ClassroomScreenState extends ConsumerState<ClassroomScreen> {
                 "Lectures",
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 35),
+              const SizedBox(height: 20),
               // GestureDetector(
               //   onTap: () {
               //     Navigator.of(context).push(MaterialPageRoute(
@@ -103,7 +103,7 @@ class _ClassroomScreenState extends ConsumerState<ClassroomScreen> {
                         onTap: () {
                           getNotesForMeeting(allMeetings[index].meetId);
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => DocumentNotesScreen(meetingModel: allMeetings[index], notes: notes,)));
+                              builder: (context) => DocumentNotesScreen(meetingModel: allMeetings[index], notes: notes)));
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 10.0),

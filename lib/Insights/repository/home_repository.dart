@@ -17,7 +17,6 @@ final homeRepositoryProvider = Provider<HomeRepository>((ref) {
 class HomeRepository {
   Future<String> getNotesForMeeting(int meetId) async {
     try {
-      log("repo");
       final response = await http.post(
         Uri.parse("$url/notes/get_note"),
         headers: {
@@ -28,7 +27,6 @@ class HomeRepository {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        log(data['notes']['aiNotes']);
         return data['notes']['aiNotes'];
       } else {
         log('Error: ${response.statusCode} - ${response.reasonPhrase}');

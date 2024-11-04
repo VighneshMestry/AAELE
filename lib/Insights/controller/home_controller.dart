@@ -1,11 +1,12 @@
-import 'dart:developer';
-
 import 'package:aaele/Insights/repository/home_repository.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final homeControllerProvider = StateNotifierProvider<HomeController, bool>((ref) {
   return HomeController(ref: ref, homeRepository: ref.read(homeRepositoryProvider));
+});
+
+final getNotesForMeeting = FutureProvider.family<String, int>((ref, meetId) {
+  return ref.watch(homeControllerProvider.notifier).getNotesForMeeting(meetId);
 });
 
 class HomeController extends StateNotifier<bool> {
@@ -22,7 +23,6 @@ class HomeController extends StateNotifier<bool> {
   Future<String> getNotesForMeeting(int meetId) async {
     state = true;
     final notes = await _homeRepository.getNotesForMeeting(meetId);
-    log("Controller");
     state = false;
     return notes;
   }

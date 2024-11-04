@@ -2,6 +2,7 @@ import 'package:aaele/classroom/screens/chatbot.dart';
 import 'package:aaele/profile/screens/lectures_display_screen.dart';
 import 'package:aaele/classroom/screens/classroom_screen.dart';
 import 'package:aaele/Insights/screens/attendance_screen.dart';
+import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,6 +17,8 @@ class CustomBottomBar extends ConsumerStatefulWidget {
 
 class _CustomBottomBarState extends ConsumerState<CustomBottomBar> {
   int _page = 0;
+  NotchBottomBarController notchBottomBarController =
+      NotchBottomBarController();
 
   var screens = [
     const ClassroomScreen(),
@@ -32,20 +35,61 @@ class _CustomBottomBarState extends ConsumerState<CustomBottomBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: screens[_page],
-      bottomNavigationBar: CupertinoTabBar(
-        height: 60,
-        border: const Border(top: BorderSide.none),
-        activeColor: Colors.blue.shade800,
-        backgroundColor: Colors.white,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_rounded), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.book), label: "Classroom"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-        ],
-        currentIndex: _page,
-        onTap: onPageChange,
-      ),
-    );
+        body: screens[_page],
+        // bottomNavigationBar: CupertinoTabBar(
+        //   height: 60,
+        //   border: const Border(top: BorderSide.none),
+        //   activeColor: Colors.blue.shade800,
+        //   backgroundColor: Colors.white,
+        //   items: const [
+        // BottomNavigationBarItem(icon: Icon(Icons.home_rounded), label: "Home"),
+        // BottomNavigationBarItem(icon: Icon(Icons.book), label: "Classroom"),
+        // BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
+        //   ],
+        //   currentIndex: _page,
+        //   onTap: onPageChange,
+        // ),
+        bottomNavigationBar: AnimatedNotchBottomBar(
+          kBottomRadius: 10,
+          kIconSize: 20,
+          onTap: onPageChange,
+          notchBottomBarController: notchBottomBarController,
+          bottomBarItems: const [
+            BottomBarItem(
+              inActiveItem: Icon(
+                Icons.home_rounded,
+                color: Colors.blueGrey,
+              ),
+              activeItem: Icon(
+                Icons.home_filled,
+                color: Colors.blueAccent,
+              ),
+              itemLabel: 'Home',
+            ),
+            BottomBarItem(
+              inActiveItem: Icon(
+                Icons.book,
+                color: Colors.blueGrey,
+              ),
+              activeItem: Icon(
+                Icons.book,
+                color: Colors.blueAccent,
+              ),
+              itemLabel: 'Book',
+            ),
+            BottomBarItem(
+              inActiveItem: Icon(
+                Icons.person,
+                color: Colors.blueGrey,
+              ),
+              activeItem: Icon(
+                Icons.person,
+                color: Colors.blueAccent,
+              ),
+              itemLabel: 'Classroom',
+            ),
+          ],
+        )
+        );
   }
 }
