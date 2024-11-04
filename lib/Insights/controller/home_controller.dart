@@ -1,19 +1,29 @@
-// import 'package:aaele/Insights/repository/home_repository.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'dart:developer';
 
-// class HomeController extends StateNotifier<bool> {
-//   final Ref ref;
+import 'package:aaele/Insights/repository/home_repository.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-//   HomeController({
-//     required Ref _ref
-//   }) {
-//     _ref = ref;
-//   }
+final homeControllerProvider = StateNotifierProvider<HomeController, bool>((ref) {
+  return HomeController(ref: ref, homeRepository: ref.read(homeRepositoryProvider));
+});
 
-//   final homeRepository = 
+class HomeController extends StateNotifier<bool> {
+  final Ref _ref;
+  final HomeRepository _homeRepository;
 
-//   void getPersonalReport(BuildContext context, int studentId, int meetId) {
+  HomeController({
+    required Ref ref,
+    required HomeRepository homeRepository,
+  })  : _ref = ref,
+        _homeRepository = homeRepository,
+        super(false);
 
-//   }
-// }
+  Future<String> getNotesForMeeting(int meetId) async {
+    state = true;
+    final notes = await _homeRepository.getNotesForMeeting(meetId);
+    log("Controller");
+    state = false;
+    return notes;
+  }
+}

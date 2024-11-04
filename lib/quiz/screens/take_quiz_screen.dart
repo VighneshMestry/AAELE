@@ -15,12 +15,12 @@
 
 // class _TakeQuizScreenState extends ConsumerState<TakeQuizScreen> {
 //   final test_id = "6719fb40f1230bb78e7c4740";
-  // ChatUser currentUser = ChatUser(id: "1", firstName: "Vighnesh");
-  // ChatUser geminiUser = ChatUser(
-  //     id: "2",
-  //     firstName: "Gemini",
-  //     profileImage:
-  //         "https://play-lh.googleusercontent.com/dT-r_1Z9hUcif7CDSD5zOdOt4KodaGdtkbGszT6WPTqKQ-WxWxOepO6VX-B3YL290ydD=w240-h480-rw");
+// ChatUser currentUser = ChatUser(id: "1", firstName: "Vighnesh");
+// ChatUser geminiUser = ChatUser(
+//     id: "2",
+//     firstName: "Gemini",
+//     profileImage:
+//         "https://play-lh.googleusercontent.com/dT-r_1Z9hUcif7CDSD5zOdOt4KodaGdtkbGszT6WPTqKQ-WxWxOepO6VX-B3YL290ydD=w240-h480-rw");
 
 //   late final IO.Socket socket;
 //   final url = "ws://192.168.0.105:5000";
@@ -104,16 +104,16 @@
 //   Widget build(BuildContext context) {
 //     final messages = ref.watch(quizControllerProvider);
 //     // final loading = ref.watch(quizControllerProvider).loading;
-    // return Scaffold(
-    //     body: DashChat(
-    //   currentUser: currentUser,
-    //   onSend: sendMessage,
-    //   messages: messages,
-    //   // typingUsers: [currentUser, geminiUser],
-    //   inputOptions: const InputOptions(
-    //       inputDecoration: InputDecoration(fillColor: Colors.yellow),
-    //       textCapitalization: TextCapitalization.sentences),
-    // ));
+// return Scaffold(
+//     body: DashChat(
+//   currentUser: currentUser,
+//   onSend: sendMessage,
+//   messages: messages,
+//   // typingUsers: [currentUser, geminiUser],
+//   inputOptions: const InputOptions(
+//       inputDecoration: InputDecoration(fillColor: Colors.yellow),
+//       textCapitalization: TextCapitalization.sentences),
+// ));
 //     // return Scaffold(
 //     //   body: Column(
 //     //     children: [
@@ -135,13 +135,13 @@
 //   }
 // }
 
-
 import 'dart:developer';
 
 import 'package:aaele/quiz/controller/quiz_controller.dart';
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class TakeQuizScreen extends ConsumerStatefulWidget {
@@ -152,7 +152,6 @@ class TakeQuizScreen extends ConsumerStatefulWidget {
 }
 
 class _TakeQuizScreenState extends ConsumerState<TakeQuizScreen> {
-
   // final String serverUrl = 'ws://192.168.0.105:5000';
   // final test_id = "6719fb40f1230bb78e7c4740";
   // late io.Socket socket;
@@ -206,12 +205,12 @@ class _TakeQuizScreenState extends ConsumerState<TakeQuizScreen> {
   // }
 
   // // Function to send a message to the server.
-  // void sendMessage(ChatMessage message) {  
+  // void sendMessage(ChatMessage message) {
   //   socket.emit('message', message.text);
   //   setState(() {
   //     messages = [message, ...messages];
   //   });
-    
+
   // }
 
   // @override
@@ -221,23 +220,59 @@ class _TakeQuizScreenState extends ConsumerState<TakeQuizScreen> {
   //   super.dispose();
   // }
 
+  String text =
+      "Computers are electronic devices that process data and execute instructions to perform tasks. They consist of hardware, like the CPU and memory, and software, including operating systems and applications. Computers are used in countless fields, from personal tasks to complex scientific calculations.";
+
+  
+
   @override
   Widget build(BuildContext context) {
     ChatUser currentUser = ChatUser(id: "1", firstName: "Vighnesh");
     final messages = ref.watch(quizControllerProvider);
-    final quizController = ref.watch(quizControllerProvider.notifier); 
+    final quizController = ref.watch(quizControllerProvider.notifier);
+    final currentVoice = quizController.currentVoice;
+    final voices = quizController.voices;
     return Scaffold(
       appBar: AppBar(
         title: Text('Test'),
       ),
-      body: DashChat(
-      currentUser: currentUser,
-      onSend: quizController.sendMessage,
-      messages: messages,
-      // typingUsers: [currentUser, geminiUser],
-      inputOptions: const InputOptions(
-          inputDecoration: InputDecoration(fillColor: Colors.yellow),
-          textCapitalization: TextCapitalization.sentences),
-    ));
+      body: Column(
+        children: [
+          Padding(
+            padding:
+                const EdgeInsets.all(8.0),
+            child: DropdownButton<Map>(
+              value: voices.contains(currentVoice)
+                  ? currentVoice
+                  : null, 
+              items: voices.map((voice) {
+                return DropdownMenuItem<Map>(
+                  value: voice, // Ensure this is a Map
+                  child: Text(voice["name"]),
+                );
+              }).toList(),
+              onChanged: (value) {
+                if (value != null) {
+                  quizController.setVoice(value);
+                }
+              },
+              hint: Text('Select Voice'), // Optional hint
+            ),
+          ),
+          Expanded(
+            child: DashChat(
+              currentUser: currentUser,
+              onSend: quizController.sendMessage,
+              messages: messages,
+              // typingUsers: [currentUser, geminiUser],
+              inputOptions: const InputOptions(
+                inputDecoration: InputDecoration(fillColor: Colors.yellow),
+                textCapitalization: TextCapitalization.sentences,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

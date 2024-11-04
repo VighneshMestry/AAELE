@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:aaele/Insights/controller/home_controller.dart';
 import 'package:aaele/auth/screens/login_screen.dart';
 import 'package:aaele/Insights/repository/home_repository.dart';
 import 'package:aaele/Insights/screens/insigths_screen.dart';
@@ -24,6 +25,7 @@ class _ClassroomScreenState extends ConsumerState<ClassroomScreen> {
 
   List<MeetingModel> allMeetings = [];
   String? userName = "";
+  String notes = "";
 
   void getAllMeetings() async {
     HomeRepository homeRepository = HomeRepository();
@@ -33,6 +35,12 @@ class _ClassroomScreenState extends ConsumerState<ClassroomScreen> {
     // ignore: use_build_context_synchronously
     allMeetings = await homeRepository.getAllMeetings(context, studentId!);
     setState(() {});
+  }
+
+  void getNotesForMeeting(int meetId) async {
+    final homeController = ref.read(homeControllerProvider.notifier);
+    log("Client");
+    notes = await homeController.getNotesForMeeting(meetId);
   }
 
   @override
@@ -93,8 +101,9 @@ class _ClassroomScreenState extends ConsumerState<ClassroomScreen> {
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
+                          getNotesForMeeting(allMeetings[index].meetId);
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => DocumentNotesScreen()));
+                              builder: (context) => DocumentNotesScreen(meetingModel: allMeetings[index], notes: notes,)));
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 10.0),

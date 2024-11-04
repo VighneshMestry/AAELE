@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:ui';
 
 import 'package:aaele/constants/constants.dart';
 import 'package:aaele/models/meeting_model.dart';
@@ -8,17 +7,72 @@ import 'package:aaele/models/overall_meeting_model.dart';
 import 'package:aaele/models/report_model.dart';
 import 'package:aaele/models/timestamps_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
+final homeRepositoryProvider = Provider<HomeRepository>((ref) {
+  return HomeRepository();
+});
+
 class HomeRepository {
-  Future getPersonalReport(BuildContext context, int studentId, int meetId) async {
+  Future<String> getNotesForMeeting(int meetId) async {
+    try {
+      log("repo");
+      final response = await http.post(
+        Uri.parse("$url/notes/get_note"),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({"meet_id": 12345}),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        log(data['notes']['aiNotes']);
+        return data['notes']['aiNotes'];
+      } else {
+        log('Error: ${response.statusCode} - ${response.reasonPhrase}');
+        return "Error in Fetching notes";
+      }
+    } catch (e) {
+      log(e.toString());
+      return "Error in Fetching Notes";
+    }
+  }
+
+//   Future<void> getNotesForMeeting(int meetid) async {
+//   final url = Uri.parse('https://mood-lens-server.onrender.com/api/v1/notes/get_note');
+//   final headers = {'Content-Type': 'application/json'};
+//   final body = jsonEncode({'meet_id': meetid});
+
+//   try {
+//     final response = await http.post(
+//       url,
+//       headers: headers,
+//       body: body,
+//     );
+
+  // if (response.statusCode == 200) {
+  //   // Successful response
+  //   final data = jsonDecode(response.body);
+  //   log('Note: $data');
+  // } else {
+  //   // Error response
+  //   log('Error: ${response.statusCode} - ${response.reasonPhrase}');
+  // }
+//   } catch (e) {
+//     print('Exception: $e');
+//   }
+// }
+
+  Future getPersonalReport(
+      BuildContext context, int studentId, int meetId) async {
     try {
       // String link =
       //   "C:/Users/Vighnesh/Flutter/Projects/ml_project/assets/demo.pdf";
       print("Dart api run");
       http.Response res = await http.post(
-        Uri.parse(
-            "$url/student_reports/personal_meeting_report"),
+        Uri.parse("$url/student_reports/personal_meeting_report"),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -41,52 +95,6 @@ class HomeRepository {
     }
   }
 
-  // Future getAllMeetings(BuildContext context, int studentId) async {
-  //   try {
-  //     // String link =
-  //     //   "C:/Users/Vighnesh/Flutter/Projects/ml_project/assets/demo.pdf";
-  //     // print("Dart api run");
-  //     // http.Response res = await http.post(
-  //     //   Uri.parse(
-  //     //       "$url/student_reports/meetings"),
-  //     //   headers: {
-  //     //     'Content-Type': 'application/json; charset=UTF-8',
-  //     //   },
-  //     //   body: jsonEncode({
-  //     //     "student_id": studentId,
-  //     //   }),
-  //     // );
-  //     // print("Dart api finish");
-
-  //     var request = http.MultipartRequest(
-  //       'POST',
-  //       Uri.parse("$url/student_reports/meetings"),
-  //     );
-
-  //     // Add fields to the request
-  //     request.fields['student_id'] = studentId.toString();
-
-  //     // Send the request and wait for the response
-  //     http.StreamedResponse res = await request.send();
-
-  //     // Convert the response into a usable format
-  //     final response = await http.Response.fromStream(res);
-
-  //     print("Dart api finish");
-
-  //     List<MeetingModel> reports = [];
-  //     final parsed = json.decode(response.body)['detailedReports'] as List<dynamic>;
-  //     reports = parsed.map<MeetingModel>((json) => MeetingModel.fromJson(json)).toList();
-  //     return reports;
-  //   } catch (e) {
-  //     print("Error in the services catch block");
-  //     print(e.toString());
-  //     // ignore: use_build_context_synchronously
-  //     ScaffoldMessenger.of(context)
-  //         .showSnackBar(SnackBar(content: Text(e.toString())));
-  //   }
-  // }
-
   Future getAllMeetings(BuildContext context, int studentId) async {
     try {
       http.Response res = await http.post(
@@ -101,7 +109,9 @@ class HomeRepository {
       );
       List<MeetingModel> reports = [];
       final parsed = json.decode(res.body)['detailedReports'] as List<dynamic>;
-      reports = parsed.map<MeetingModel>((json) => MeetingModel.fromJson(json)).toList();
+      reports = parsed
+          .map<MeetingModel>((json) => MeetingModel.fromJson(json))
+          .toList();
       return reports;
     } catch (e) {
       // ignore: use_build_context_synchronously
@@ -128,7 +138,10 @@ class HomeRepository {
       print("Dart api finish");
       List<OverallMeetingModel> reports = [];
       final parsed = json.decode(res.body)['reports'] as List<dynamic>;
-      reports = parsed.map<OverallMeetingModel>((json) => OverallMeetingModel.fromJson(json)).toList();
+      reports = parsed
+          .map<OverallMeetingModel>(
+              (json) => OverallMeetingModel.fromJson(json))
+          .toList();
       return reports;
     } catch (e) {
       print("Error in the services catch block");
@@ -174,7 +187,8 @@ class HomeRepository {
     }
   }
 
-  Future generateConclusion(BuildContext context, int meetId, int studentId) async {
+  Future generateConclusion(
+      BuildContext context, int meetId, int studentId) async {
     try {
       // String link =
       //   "C:/Users/Vighnesh/Flutter/Projects/ml_project/assets/demo.pdf";
@@ -185,14 +199,11 @@ class HomeRepository {
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode({
-          "meet_id": meetId,
-          "student_id" : studentId
-        }),
+        body: jsonEncode({"meet_id": meetId, "student_id": studentId}),
       );
       print("Dart api finish");
       final Map<String, dynamic> data = json.decode(res.body);
-    return data['conclusion'];
+      return data['conclusion'];
     } catch (e) {
       print("Error in the timestamp services catch block");
       print(e.toString());
@@ -201,21 +212,6 @@ class HomeRepository {
           .showSnackBar(SnackBar(content: Text(e.toString())));
     }
   }
-
-  // httpErrorHandle(
-  //       response: res,
-  //       context: context,
-  //       onSuccess: () {
-  //         final parsed =
-  //             json.decode(res.toString())['reports'] as List<dynamic>;
-  //         reports =
-  //             parsed.map<Report>((json) => Report.fromJson(json)).toList();
-
-  //         for (int i = 0; i < reports.length; i++) {
-  //           print(reports[i]);
-  //         }
-  //       },
-  //     );
 
   void httpErrorHandle({
     required http.Response response,
@@ -248,5 +244,4 @@ class HomeRepository {
         }
     }
   }
-
 }
