@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'AAELE',
       home: (username != "") ? const CustomBottomBar() : const LoginScreen(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

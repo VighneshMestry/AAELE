@@ -83,7 +83,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
         //   BoxShadow(color: Colors.grey, spreadRadius: 1, blurRadius: 1, offset: Offset(0,3))
         // ]
       ),
-      height: 450,
+      height: 500,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -99,6 +99,8 @@ class _PieChartWidgetState extends State<PieChartWidget> {
             padding: const EdgeInsets.only(left: 15.0),
             child: Text("${overallEmotionPercetage.round()}%", style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900),),
           ),
+          const SizedBox(height: 15),
+          InfoTile(),
           const SizedBox(height: 30),
           SizedBox(
             height: 300,
@@ -134,6 +136,93 @@ class _PieChartWidgetState extends State<PieChartWidget> {
     );
   }
 
+  Widget InfoTile() {
+    return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      height: 10,
+                      width: 30,
+                      decoration: BoxDecoration(
+                        color: Colors.green.shade700,
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      "Happy",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    SizedBox(width: 20),
+                    Container(
+                      height: 10,
+                      width: 30,
+                      decoration: BoxDecoration(
+                        color: Colors.blue.shade700,
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      "Surprised",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    SizedBox(width: 20),
+                    Container(
+                      height: 10,
+                      width: 30,
+                      decoration: BoxDecoration(
+                        color: Colors.red.shade700,
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      "Confused",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 5),
+                Row(
+                  children: [
+                    Container(
+                      height: 10,
+                      width: 30,
+                      decoration: BoxDecoration(
+                        color: Colors.yellow.shade700,
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      "Bored",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    SizedBox(width: 24),
+                    Container(
+                      height: 10,
+                      width: 30,
+                      decoration: BoxDecoration(
+                        color: Colors.lightBlue,
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      "Person Not Found",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+  }
+
   List<PieChartSectionData> piechartTextSection(List<Emotion> emotions) {
     List<Color> sectionColors = [
       Colors.green.shade700,
@@ -152,7 +241,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
       PieChartSectionData(
         color: sectionColors[0],
         value: emotions[0].happy,
-        title: "Happy ${emotions[0].happy.toInt()}",
+        title: "${emotions[0].happy.toInt()}",
         radius: _touchedIndex == 0 ? selectedRadius : radius,
         titleStyle: TextStyle(
             fontSize: _touchedIndex == 0 ? selectedFontSize : fontSize,
@@ -162,7 +251,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
       PieChartSectionData(
         color: sectionColors[1],
         value: emotions[0].surprised,
-        title: "Surprised ${emotions[0].surprised.toInt()}",
+        title: "${emotions[0].surprised.toInt()}",
         radius: _touchedIndex == 1 ? selectedRadius : radius,
         titleStyle: TextStyle(
             fontSize: _touchedIndex == 1 ? selectedFontSize : fontSize,
@@ -172,7 +261,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
       PieChartSectionData(
         color: sectionColors[2],
         value: emotions[0].confused,
-        title: "Confused ${emotions[0].confused.toInt()}",
+        title: "${emotions[0].confused.toInt()}",
         radius: _touchedIndex == 2 ? selectedRadius : radius,
         titleStyle: TextStyle(
             fontSize: _touchedIndex == 2 ? selectedFontSize : fontSize,
@@ -182,7 +271,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
       PieChartSectionData(
         color: sectionColors[3],
         value: emotions[0].bored,
-        title: "Bored ${emotions[0].bored.toInt()}",
+        title: "${emotions[0].bored.toInt()}",
         radius: _touchedIndex == 3 ? selectedRadius : radius,
         titleStyle: TextStyle(
             fontSize: _touchedIndex == 3 ? selectedFontSize : fontSize,
@@ -192,7 +281,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
       PieChartSectionData(
         color: sectionColors[4],
         value: emotions[0].pnf,
-        title: "PNF ${emotions[0].pnf.toInt()}",
+        title: "${emotions[0].pnf.toInt()}",
         radius: _touchedIndex == 4 ? selectedRadius : radius,
         titleStyle: TextStyle(
             fontSize: _touchedIndex == 4 ? selectedFontSize : fontSize,
@@ -220,7 +309,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
       PieChartSectionData(
         color: sectionColors[0],
         value: emotions[0].happy,
-        title: "Happy ${emotions[0].happy.toInt()}",
+        title: "${emotions[0].happy.toInt()}",
         radius: _touchedIndex == 0 ? selectedRadius : radius,
         titleStyle: TextStyle(
             fontSize: _touchedIndex == 0 ? selectedFontSize : fontSize,
@@ -230,7 +319,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
       PieChartSectionData(
         color: sectionColors[1],
         value: emotions[0].surprised,
-        title: "Surprised ${emotions[0].surprised.toInt()}",
+        title: "${emotions[0].surprised.toInt()}",
         radius: _touchedIndex == 1 ? selectedRadius : radius,
         titleStyle: TextStyle(
             fontSize: _touchedIndex == 1 ? selectedFontSize : fontSize,
@@ -240,7 +329,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
       PieChartSectionData(
         color: sectionColors[2],
         value: emotions[0].confused,
-        title: "Confused ${emotions[0].confused.toInt()}",
+        title: "${emotions[0].confused.toInt()}",
         radius: _touchedIndex == 2 ? selectedRadius : radius,
         titleStyle: TextStyle(
             fontSize: _touchedIndex == 2 ? selectedFontSize : fontSize,
@@ -250,7 +339,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
       PieChartSectionData(
         color: sectionColors[3],
         value: emotions[0].bored,
-        title: "Bored ${emotions[0].bored.toInt()}",
+        title: "${emotions[0].bored.toInt()}",
         radius: _touchedIndex == 3 ? selectedRadius : radius,
         titleStyle: TextStyle(
             fontSize: _touchedIndex == 3 ? selectedFontSize : fontSize,
@@ -260,7 +349,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
       PieChartSectionData(
         color: sectionColors[4],
         value: emotions[0].pnf,
-        title: "PNF ${emotions[0].pnf.toInt()}",
+        title: "${emotions[0].pnf.toInt()}",
         radius: _touchedIndex == 4 ? selectedRadius : radius,
         titleStyle: TextStyle(
             fontSize: _touchedIndex == 4 ? selectedFontSize : fontSize,
@@ -288,7 +377,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
       PieChartSectionData(
         color: sectionColors[0],
         value: emotions[0].happy,
-        title: "Happy ${emotions[0].happy.toInt()}",
+        title: "${emotions[0].happy.toInt()}",
         radius: _touchedIndex == 0 ? selectedRadius : radius,
         titleStyle: TextStyle(
             fontSize: _touchedIndex == 0 ? selectedFontSize : fontSize,
@@ -298,7 +387,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
       PieChartSectionData(
         color: sectionColors[1],
         value: emotions[0].surprised,
-        title: "Surprised ${emotions[0].surprised.toInt()}",
+        title: "${emotions[0].surprised.toInt()}",
         radius: _touchedIndex == 1 ? selectedRadius : radius,
         titleStyle: TextStyle(
             fontSize: _touchedIndex == 1 ? selectedFontSize : fontSize,
@@ -308,7 +397,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
       PieChartSectionData(
         color: sectionColors[2],
         value: emotions[0].confused,
-        title: "Confused ${emotions[0].confused.toInt()}",
+        title: "${emotions[0].confused.toInt()}",
         radius: _touchedIndex == 2 ? selectedRadius : radius,
         titleStyle: TextStyle(
             fontSize: _touchedIndex == 2 ? selectedFontSize : fontSize,
@@ -318,7 +407,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
       PieChartSectionData(
         color: sectionColors[3],
         value: emotions[0].bored,
-        title: "Bored ${emotions[0].bored.toInt()}",
+        title: "${emotions[0].bored.toInt()}",
         radius: _touchedIndex == 3 ? selectedRadius : radius,
         titleStyle: TextStyle(
             fontSize: _touchedIndex == 3 ? selectedFontSize : fontSize,
@@ -328,7 +417,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
       PieChartSectionData(
         color: sectionColors[4],
         value: emotions[0].pnf,
-        title: "PNF ${emotions[0].pnf.toInt()}",
+        title: "${emotions[0].pnf.toInt()}",
         radius: _touchedIndex == 4 ? selectedRadius : radius,
         titleStyle: TextStyle(
             fontSize: _touchedIndex == 4 ? selectedFontSize : fontSize,

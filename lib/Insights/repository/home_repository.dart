@@ -27,6 +27,7 @@ class HomeRepository {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
+        log("Notes Received in Repository");
         return data['notes']['aiNotes'];
       } else {
         log('Error: ${response.statusCode} - ${response.reasonPhrase}');

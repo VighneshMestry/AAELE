@@ -21,7 +21,7 @@ class _LecturesDisplayScreenState extends ConsumerState<LecturesDisplayScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(onPressed: (){
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChatbotScreen()));
+              // Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChatbotScreen()));
             }, child: Text("Chatbot")),
             ElevatedButton(onPressed: (){
               Navigator.of(context).push(MaterialPageRoute(builder: (context) => DemoChatbot()));

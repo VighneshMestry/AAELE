@@ -29,7 +29,7 @@ class _MultiLineBarWidgetState extends State<MultiLineBarWidget> {
     List<FlSpot> confusedCoordinates = [];
     List<FlSpot> boredCoordinates = [];
     List<FlSpot> pnfCoordinates = [];
-    for (int i = 0; i < widget.timestamps.length; i++) {
+    for (int i = widget.timestamps.length < 5 ? 0 : widget.timestamps.length - 5; i < widget.timestamps.length; i++) {
       double timestamp = double.parse(
         widget.timestamps[i].timeStamp.substring(0, 2) +
             "." +

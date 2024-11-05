@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:aaele/models/user_model.dart';
 
 class AuthRepository {
+  String userName = "";
   Future logIn(BuildContext context, String username, int pid) async {
     try {
       http.Response res = await http.post(
@@ -20,6 +21,7 @@ class AuthRepository {
           "pid" : pid
         }),
       );
+      userName = username;
       return UserModel.fromJson(jsonDecode(res.body)['user']);
     } catch (e) {
       // ignore: use_build_context_synchronously
