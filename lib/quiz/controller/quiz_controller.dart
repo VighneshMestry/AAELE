@@ -38,7 +38,7 @@ class QuizController extends StateNotifier<List<ChatMessage>> {
     _initSocket();
   }
 
-  final String serverUrl = 'ws://192.168.0.105:5000';
+  final String serverUrl = 'ws://192.168.0.103:5000';
   final String testId = "6719fb40f1230bb78e7c4740";
   late io.Socket socket;
   FlutterTts _flutterTts = FlutterTts();
