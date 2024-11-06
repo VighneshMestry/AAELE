@@ -5,6 +5,7 @@ import 'package:aaele/Insights/widgets/piechart.dart';
 import 'package:aaele/models/report_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../repository/home_repository.dart';
 
@@ -119,7 +120,7 @@ class _PersonalInsightsScreenState extends ConsumerState<PersonalInsightsScreen>
               ),
               const SizedBox(height: 50),
               reports.isEmpty
-                  ? const Center(child: CircularProgressIndicator())
+                  ? const Center(child: SpinKitSpinningLines(color: Colors.blue, size: 60),)
                   : ((reports[0].textEmotions[0].bored == 0 &&
                           reports[0].textEmotions[0].happy == 0 &&
                           reports[0].textEmotions[0].confused == 0 &&
@@ -132,7 +133,7 @@ class _PersonalInsightsScreenState extends ConsumerState<PersonalInsightsScreen>
                           sectionIndex: 0)),
               const SizedBox(height: 20),
               reports.isEmpty
-                  ? const Center(child: CircularProgressIndicator())
+                  ? const Center(child: SpinKitSpinningLines(color: Colors.blue, size: 60),)
                   : ((reports[0].videoEmotions[0].bored == 0 &&
                           reports[0].videoEmotions[0].happy == 0 &&
                           reports[0].videoEmotions[0].confused == 0 &&
@@ -145,7 +146,7 @@ class _PersonalInsightsScreenState extends ConsumerState<PersonalInsightsScreen>
                           sectionIndex: 1)),
               const SizedBox(height: 20),
               reports.isEmpty
-                  ? const Center(child: CircularProgressIndicator())
+                  ? const Center(child: SpinKitSpinningLines(color: Colors.blue, size: 60),)
                   : ((reports[0].audioEmotions[0].bored == 0 &&
                           reports[0].audioEmotions[0].happy == 0 &&
                           reports[0].audioEmotions[0].confused == 0 &&

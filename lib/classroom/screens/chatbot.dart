@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:aaele/auth/repository/auth_repository.dart';
+import 'package:aaele/widgets/snackbar.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -27,7 +29,8 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
   // Gemini gemini = Gemini.instance;
   late final GenerativeModel _model;
   late final ChatSession _chat;
-  ChatUser currentUser = ChatUser(id: "1", firstName: "Vighnesh");
+  late ChatUser currentUser;
+  final geminiImage = "";
   ChatUser geminiUser = ChatUser(
       id: "2",
       firstName: "Gemini",
@@ -35,7 +38,16 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
           "https://play-lh.googleusercontent.com/dT-r_1Z9hUcif7CDSD5zOdOt4KodaGdtkbGszT6WPTqKQ-WxWxOepO6VX-B3YL290ydD=w240-h480-rw");
 
   final List<Map<String, String>> _chatHistory = [];
-  List<ChatMessage> messages = [];
+  List<ChatMessage> messages = [
+    ChatMessage(
+        user: ChatUser(
+            id: "2",
+            firstName: "Gemini",
+            profileImage:
+                "https://play-lh.googleusercontent.com/dT-r_1Z9hUcif7CDSD5zOdOt4KodaGdtkbGszT6WPTqKQ-WxWxOepO6VX-B3YL290ydD=w240-h480-rw"),
+        createdAt: DateTime.now(),
+        text: "Hello! How can I help you?"),
+  ];
   final List<({Image? image, String? text, bool fromUser})> _generatedContent =
       [];
 
@@ -84,9 +96,6 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
       // Add bot's response to the chat history
       _chatHistory.add({'role': 'bot', 'content': text ?? ''});
 
-      // Display bot's response
-      log(text ?? "");
-      log("{{{{{{{{{{{}}}}}}}}}}}");
       Markdown markdown2 = Markdown(data: text!);
       ChatMessage test2 = ChatMessage(
           user: geminiUser,
@@ -102,6 +111,7 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
 
   void initState() {
     super.initState();
+    currentUser = ChatUser(id: "1", firstName: widget.studentName);
     _model = GenerativeModel(
       model: 'gemini-1.5-flash-latest',
       apiKey: "AIzaSyBuZr6PhkGpecYjISGJ3Q-Fce0oj5NppPA",
@@ -118,19 +128,34 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            "Discussions",
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-          ),
+      // backgroundColor: Color.fromARGB(255, 209, 208, 166),
+      backgroundColor: Colors.lightGreen.shade200,
+      appBar: AppBar(
+        title: const Text(
+          "AAELE",
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, fontFamily: "Nunito"),
         ),
-        body: DashChat(
-          currentUser: currentUser,
-          onSend: sendMessage,
-          messages: messages,
-          messageOptions: const MessageOptions(
-            currentUserContainerColor: Colors.blue
-          ),
-        ));
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 15.0),
+            child: GestureDetector(
+                onTap: () {
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(snackBar('On Snap!',
+                        'Feature Coming soon! :)', ContentType.help));
+                },
+                child: Icon(Icons.info_outline_rounded,
+                    color: Colors.grey.shade500)),
+          )
+        ],
+      ),
+      body: DashChat(
+        currentUser: currentUser,
+        onSend: sendMessage,
+        messages: messages,
+        messageOptions: MessageOptions(currentUserContainerColor: Colors.green.shade600),
+      ),
+    );
   }
 }

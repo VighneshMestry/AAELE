@@ -12,6 +12,7 @@ import 'package:aaele/models/meeting_model.dart';
 import 'package:aaele/widgets/document_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class  ClassroomScreen extends ConsumerStatefulWidget {
@@ -91,7 +92,7 @@ class _ClassroomScreenState extends ConsumerState<ClassroomScreen> {
               // ),
               (allMeetings.isEmpty)
                   ? const Center(
-                      child: CircularProgressIndicator(),
+                      child: SpinKitSpinningLines(color: Colors.blue, size: 60),
                     )
                   : ListView.builder(
                     scrollDirection: Axis.vertical,

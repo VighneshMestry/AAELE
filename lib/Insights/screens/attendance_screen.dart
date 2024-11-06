@@ -5,6 +5,7 @@ import 'package:aaele/Insights/widgets/lecture_card.dart';
 import 'package:aaele/models/meeting_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AttendanceScreen extends ConsumerStatefulWidget {
@@ -77,7 +78,7 @@ class _AttendanceScreenState extends ConsumerState<AttendanceScreen> {
               // ),
               (allMeetings.isEmpty)
                   ? const Center(
-                      child: CircularProgressIndicator(),
+                      child: SpinKitSpinningLines(color: Colors.blue, size: 60),
                     )
                   : ListView.builder(
                     scrollDirection: Axis.vertical,

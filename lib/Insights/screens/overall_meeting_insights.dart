@@ -7,6 +7,7 @@ import 'package:aaele/models/report_model.dart';
 import 'package:aaele/models/timestamps_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../repository/home_repository.dart';
 
 
@@ -120,7 +121,7 @@ class _OverallMeetingReportsState extends ConsumerState<OverallMeetingReports> {
               ),
               const SizedBox(height: 50),
               reports.isEmpty
-                  ? Center(child: const CircularProgressIndicator())
+                  ? Center(child: SpinKitSpinningLines(color: Colors.blue, size: 60),)
                   : ((reports[0].textEmotions[0].bored == 0 &&
                           reports[0].textEmotions[0].happy == 0 &&
                           reports[0].textEmotions[0].confused == 0 &&
@@ -133,7 +134,7 @@ class _OverallMeetingReportsState extends ConsumerState<OverallMeetingReports> {
                           sectionIndex: 0)),
               const SizedBox(height: 20),
               reports.isEmpty
-                  ? Center(child: const CircularProgressIndicator())
+                  ? Center(child: SpinKitSpinningLines(color: Colors.blue, size: 60),)
                   : ((reports[0].videoEmotions[0].bored == 0 &&
                           reports[0].videoEmotions[0].happy == 0 &&
                           reports[0].videoEmotions[0].confused == 0 &&
@@ -146,7 +147,7 @@ class _OverallMeetingReportsState extends ConsumerState<OverallMeetingReports> {
                           sectionIndex: 1)),
               const SizedBox(height: 20),
               reports.isEmpty
-                  ? Center(child: const CircularProgressIndicator())
+                  ? Center(child: SpinKitSpinningLines(color: Colors.blue, size: 60),)
                   : ((reports[0].audioEmotions[0].bored == 0 &&
                           reports[0].audioEmotions[0].happy == 0 &&
                           reports[0].audioEmotions[0].confused == 0 &&
@@ -159,15 +160,15 @@ class _OverallMeetingReportsState extends ConsumerState<OverallMeetingReports> {
                           sectionIndex: 2)),
               const SizedBox(height: 20),
               meetingTimestampsData.isEmpty
-                  ? Center(child: const CircularProgressIndicator())
+                  ? Center(child: SpinKitSpinningLines(color: Colors.blue, size: 60),)
                   :  ((meetingTimestampsData[0].timestamps.length == 0) ? NoDataFound(emotionName: "Text Emotion") : MultiLineBarWidget(timestamps: meetingTimestampsData[0].timestamps, modeType: "Text Emotion")),
               const SizedBox(height: 20),
               meetingTimestampsData.isEmpty
-                  ? Center(child: const CircularProgressIndicator())
+                  ? Center(child: SpinKitSpinningLines(color: Colors.blue, size: 60),)
                   : ((meetingTimestampsData[1].timestamps.length == 0) ? NoDataFound(emotionName: "Video Emotion") : MultiLineBarWidget(timestamps: meetingTimestampsData[1].timestamps, modeType: "Video Emotion")),
               const SizedBox(height: 20),
               meetingTimestampsData.isEmpty
-                  ? Center(child: const CircularProgressIndicator())
+                  ? Center(child: SpinKitSpinningLines(color: Colors.blue, size: 60),)
                   :  ((meetingTimestampsData[2].timestamps.length == 0) ? NoDataFound(emotionName: "Audio Emotion") : MultiLineBarWidget(timestamps: meetingTimestampsData[2].timestamps, modeType: "Audio Emotion")),
               const SizedBox(height: 20),
             ],

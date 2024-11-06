@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../repository/home_repository.dart';
@@ -168,7 +169,7 @@ class _InsightsScreenState extends ConsumerState<InsightsScreen> {
           future: _conclusionFuture,
           builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return Center(child: SpinKitSpinningLines(color: Colors.blue, size: 60),);
             } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
               return Align(
                 alignment: Alignment.bottomCenter,
