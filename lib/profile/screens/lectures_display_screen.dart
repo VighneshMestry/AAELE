@@ -4,6 +4,7 @@ import 'package:aaele/classroom/screens/new_chat_bot.dart';
 import 'package:aaele/classroom/widgets/subject_card.dart';
 import 'package:aaele/constants/constants.dart';
 import 'package:aaele/models/meeting_model.dart';
+import 'package:aaele/quiz/screens/quiz_rules_screen.dart';
 import 'package:aaele/quiz/screens/take_quiz_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

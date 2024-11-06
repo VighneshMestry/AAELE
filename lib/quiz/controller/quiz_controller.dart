@@ -36,6 +36,7 @@ final quizControllerProvider =
 class QuizController extends StateNotifier<List<ChatMessage>> {
   QuizController() : super([]) {
     _initSocket();
+    _flutterTts.setVoice({"name": currentVoice["name"], "locale": currentVoice["locale"]});
   }
 
   final String serverUrl = 'ws://192.168.0.103:5000';
@@ -49,12 +50,12 @@ class QuizController extends StateNotifier<List<ChatMessage>> {
     {"name": "en-in-x-ene-local", "locale": "en-IN"},
     {"name": "en-in-x-enc-network", "locale": "en-IN"},
     {"name": "en-in-x-enc-local", "locale": "en-IN"},
-    {"name": "en-in-x-ahp-local", "locale": "en-IN"},
+    {"name": "en-in-x-ahp-local", "locale": "en-IN"},//
     {"name": "en-in-x-end-network", "locale": "en-IN"},
     {"name": "en-in-x-ena-local", "locale": "en-IN"}
   ];
 
-  Map currentVoice = {"name": "en-in-x-end-local", "locale": "en-IN"};
+  Map currentVoice = {"name": "en-in-x-ahp-local", "locale": "en-IN"};
 
   final ChatUser geminiUser = ChatUser(
     id: "2",
@@ -97,6 +98,7 @@ class QuizController extends StateNotifier<List<ChatMessage>> {
       text: text,
     );
     state = [message, ...state];
+    
     _flutterTts.speak(message.text);
   }
 
