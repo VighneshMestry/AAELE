@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:aaele/auth/repository/auth_repository.dart';
 import 'package:aaele/widgets/snackbar.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:dash_chat_2/dash_chat_2.dart';
@@ -73,7 +72,7 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
       _chatHistory.add({'role': 'user', 'content': message});
 
       // Display user's message on the UI
-      Markdown markdown = Markdown(data: message!);
+      Markdown markdown = Markdown(data: message);
       ChatMessage test = ChatMessage(
           user: currentUser,
           createdAt: DateTime.now(),
@@ -100,7 +99,7 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
       ChatMessage test2 = ChatMessage(
           user: geminiUser,
           createdAt: DateTime.now(),
-          text: markdown2.data.replaceAll("*", "") ?? '');
+          text: markdown2.data.replaceAll("*", ""));
       setState(() {
         log(test2.text);
         messages = [test2, ...messages];

@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:aaele/auth/screens/login_screen.dart';
 import 'package:aaele/Insights/screens/custom_bottom_bar.dart';
-import 'package:aaele/Insights/screens/attendance_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:flutter_gemini/flutter_gemini.dart';
@@ -19,6 +18,7 @@ void main() async {
   ));
 }
 
+// ignore: must_be_immutable
 class MyApp extends StatelessWidget {
   String username;
   MyApp({super.key, required this.username});

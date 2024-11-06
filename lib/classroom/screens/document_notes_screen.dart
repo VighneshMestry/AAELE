@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:math';
 
 import 'package:aaele/Insights/controller/home_controller.dart';
@@ -7,12 +6,8 @@ import 'package:aaele/classroom/screens/chatbot.dart';
 import 'package:aaele/classroom/widgets/subject_card.dart';
 import 'package:aaele/constants/constants.dart';
 import 'package:aaele/models/meeting_model.dart';
-import 'package:aaele/widgets/document_card.dart';
 import 'package:aaele/widgets/snackbar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';

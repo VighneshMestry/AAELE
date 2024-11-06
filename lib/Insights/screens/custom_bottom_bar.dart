@@ -1,4 +1,3 @@
-import 'package:aaele/classroom/screens/chatbot.dart';
 import 'package:aaele/profile/screens/lectures_display_screen.dart';
 import 'package:aaele/classroom/screens/classroom_screen.dart';
 import 'package:aaele/Insights/screens/attendance_screen.dart';

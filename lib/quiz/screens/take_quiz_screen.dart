@@ -135,14 +135,10 @@
 //   }
 // }
 
-import 'dart:developer';
-
 import 'package:aaele/quiz/controller/quiz_controller.dart';
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_tts/flutter_tts.dart';
-import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class TakeQuizScreen extends ConsumerStatefulWidget {
   const TakeQuizScreen({super.key});

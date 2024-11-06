@@ -81,12 +81,12 @@ class _DocumentCardState extends ConsumerState<DocumentCard> {
                                     ElevatedButton(
                                       onPressed: () {
                                         // Perform submission actions here
-                                        String assignmentTitleText = "Title";
+                                        // String assignmentTitleText = "Title";
                                             // (assignmentTitle.text.length == 0)
                                             //     ? widget
                                             //         .document.assignmentTitle
                                             //     : assignmentTitle.text.trim();
-                                        String assignmentDescriptionText = "Description";
+                                        // String assignmentDescriptionText = "Description";
                                             // (assignmentDescription
                                             //             .text.length ==
                                             //         0)

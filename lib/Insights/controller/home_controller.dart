@@ -10,6 +10,7 @@ final getNotesForMeeting = FutureProvider.family<String, int>((ref, meetId) {
 });
 
 class HomeController extends StateNotifier<bool> {
+  // ignore: unused_field
   final Ref _ref;
   final HomeRepository _homeRepository;
 

@@ -1,4 +1,3 @@
-import 'package:aaele/classroom/screens/chatbot.dart';
 import 'package:aaele/classroom/screens/new_chat_bot.dart';
 import 'package:aaele/quiz/screens/take_quiz_screen.dart';
 import 'package:flutter/material.dart';

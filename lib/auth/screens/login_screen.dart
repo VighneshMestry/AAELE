@@ -1,6 +1,5 @@
 import 'package:aaele/auth/repository/auth_repository.dart';
 import 'package:aaele/Insights/screens/custom_bottom_bar.dart';
-import 'package:aaele/Insights/screens/attendance_screen.dart';
 import 'package:aaele/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
