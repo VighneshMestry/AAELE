@@ -104,7 +104,7 @@ class _PersonalInsightsScreenState
               Padding(
                 padding: const EdgeInsets.only(left: 8.0),
                 child: Text(
-                  reports.isEmpty ? "" : "${widget.userName} was present in this lecture with ${reports[0].presentPercentage}% presence",
+                  reports.isEmpty ? "" : "${widget.userName} was present in this lecture with ${reports[0].presentPercentage.toString()}% presence",
                   style: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold),
                 ),

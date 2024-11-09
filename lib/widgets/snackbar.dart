@@ -17,9 +17,23 @@ snackBar(String title, String message, ContentType contentType) {
   );
 }
 
+errorSnackBar(BuildContext context) {
+  return ScaffoldMessenger.of(context)
+    ..hideCurrentSnackBar()
+    ..showSnackBar(
+        snackBar('Error!', 'Something went wrong', ContentType.failure));
+}
+
 featureComingSoonSnackBar(BuildContext context) {
   return ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
     ..showSnackBar(
         snackBar('On Snap!', 'Feature Coming soon! :)', ContentType.help));
+}
+
+cannotTakeTest(BuildContext context) {
+  return ScaffoldMessenger.of(context)
+    ..hideCurrentSnackBar()
+    ..showSnackBar(
+        snackBar('Permission denied', 'You cannot take test', ContentType.failure)); 
 }

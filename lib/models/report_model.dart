@@ -5,7 +5,7 @@ class Report {
   final List<Emotion> textEmotions;
   final List<Emotion> videoEmotions;
   final List<Emotion> audioEmotions;
-  final String presentPercentage;
+  final int presentPercentage;
 
   Report({
     required this.id,
@@ -26,7 +26,7 @@ class Report {
       videoEmotions: List<Emotion>.from(json['video_emotions'].map((x) => Emotion.fromJson(x))),
       audioEmotions: List<Emotion>.from(json['audio_emotions'].map((x) => Emotion.fromJson(x))),
       // presentPercentage: json['presentPercentage'] ?? ""
-      presentPercentage: "100"
+      presentPercentage: json['presentPercentage'] ?? 0
     );
   }
 }

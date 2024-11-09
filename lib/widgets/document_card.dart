@@ -1,23 +1,27 @@
 import 'dart:math';
 
+import 'package:aaele/database.dart';
 import 'package:aaele/quiz/screens/take_quiz_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 class DocumentCard extends ConsumerStatefulWidget {
   final String testTitle;
-  final String scheduledOn;
-  final String endsOn;
+  final DateTime scheduledOn;
+  final DateTime endsOn;
   final String totalPoints;
   final bool live;
+  final String testId;
   const DocumentCard(
       {super.key,
       required this.testTitle,
       required this.scheduledOn,
       required this.endsOn,
       required this.totalPoints,
-      required this.live});
+      required this.live,
+      required this.testId});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _DocumentCardState();
@@ -31,6 +35,8 @@ class _DocumentCardState extends ConsumerState<DocumentCard> {
 
   @override
   Widget build(BuildContext context) {
+    final startDate = DateFormat.yMMMMd().add_jms().format(widget.scheduledOn);
+    final endate = DateFormat.yMMMMd().add_jms().format(widget.endsOn);
     return Container(
       height: 268,
       decoration: BoxDecoration(
@@ -98,7 +104,7 @@ class _DocumentCardState extends ConsumerState<DocumentCard> {
                       fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  widget.scheduledOn,
+                  startDate,
                   style: const TextStyle(
                       fontSize: 14, fontWeight: FontWeight.w500),
                 )
@@ -114,7 +120,7 @@ class _DocumentCardState extends ConsumerState<DocumentCard> {
                       fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  widget.endsOn,
+                  endate,
                   style: const TextStyle(
                       fontSize: 14, fontWeight: FontWeight.w500),
                 )
@@ -140,10 +146,10 @@ class _DocumentCardState extends ConsumerState<DocumentCard> {
                     )
                   ],
                 ),
-                widget.live ? GestureDetector(
+                widget.live && ref.read(userRoleProvider) == "Student" ? GestureDetector(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const TakeQuizScreen()));
+                        builder: (context) => TakeQuizScreen(testId: widget.testId)));
                   },
                   child: Container(
                     margin: const EdgeInsets.only(right: 10),

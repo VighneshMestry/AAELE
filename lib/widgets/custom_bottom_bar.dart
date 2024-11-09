@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:aaele/database.dart';
+import 'package:aaele/permission_handler.dart';
 import 'package:aaele/quiz/screens/assessments_display_screen.dart';
 import 'package:aaele/classroom/screens/classroom_screen.dart';
 import 'package:aaele/Insights/screens/attendance_screen.dart';
@@ -38,10 +39,28 @@ class _CustomBottomBarState extends ConsumerState<CustomBottomBar> {
         sharedPreferences.getString("role");
   }
 
+  // void handlePermission() async {
+  //   await PermissionHandler().cameraPermission();
+  //   await PermissionHandler().micPermission();
+  //   await PermissionHandler().storagePermission();
+  // }
+
+//   void handlePermission() async {
+//   final allGranted = await PermissionHandler().requestAllPermissions();
+
+//   if (allGranted) {
+//     log("All permissions granted");
+//   } else {
+//     log("Permissions denied");
+//     // Optionally, show a dialog or message to the user
+//   }
+// }
+
   @override
   void initState() {
     super.initState();
     authorizeRole();
+    // handlePermission();
   }
 
   @override

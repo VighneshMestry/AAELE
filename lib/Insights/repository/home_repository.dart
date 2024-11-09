@@ -22,12 +22,15 @@ class HomeRepository {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: jsonEncode({"meet_id": 12345}),
+        body: jsonEncode({"meet_id": meetId}),
       );
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        return data['notes']['aiNotes'];
+        if (data['notes'] != null && data['notes'].isNotEmpty) {
+          return data['notes']['aiNotes']; // or adjust based on structure
+        }
+        return "Notes not available!!!";
       } else {
         log('Error: ${response.statusCode} - ${response.reasonPhrase}');
         return "Error in Fetching notes";
@@ -68,8 +71,7 @@ class HomeRepository {
   Future getAllMeetings(BuildContext context, int studentId) async {
     try {
       http.Response res = await http.post(
-        Uri.parse(
-            "$url/student_reports/meetings"),
+        Uri.parse("$url/student_reports/meetings"),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -96,8 +98,7 @@ class HomeRepository {
       //   "C:/Users/Vighnesh/Flutter/Projects/ml_project/assets/demo.pdf";
       print("Dart api run");
       http.Response res = await http.post(
-        Uri.parse(
-            "$url/student_reports/overall_meeting_report"),
+        Uri.parse("$url/student_reports/overall_meeting_report"),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -128,8 +129,7 @@ class HomeRepository {
       //   "C:/Users/Vighnesh/Flutter/Projects/ml_project/assets/demo.pdf";
       print("Dart api run");
       http.Response res = await http.post(
-        Uri.parse(
-            "$url/student_reports/get_meeting_timestamps"),
+        Uri.parse("$url/student_reports/get_meeting_timestamps"),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -164,8 +164,7 @@ class HomeRepository {
       //   "C:/Users/Vighnesh/Flutter/Projects/ml_project/assets/demo.pdf";
       print("Dart api run");
       http.Response res = await http.post(
-        Uri.parse(
-            "$url/student_reports/generate_conclusion"),
+        Uri.parse("$url/student_reports/generate_conclusion"),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
         },

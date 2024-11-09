@@ -7,6 +7,7 @@ import 'package:aaele/classroom/screens/document_notes_screen.dart';
 import 'package:aaele/classroom/widgets/subject_card.dart';
 import 'package:aaele/constants/constants.dart';
 import 'package:aaele/models/meeting_model.dart';
+import 'package:aaele/permission_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -40,10 +41,22 @@ class _ClassroomScreenState extends ConsumerState<ClassroomScreen> {
     notes = await homeController.getNotesForMeeting(meetId);
   }
 
+  void handlePermission() async {
+  final allGranted = await PermissionHandler().requestAllPermissions();
+
+  if (allGranted) {
+    log("All permissions granted");
+  } else {
+    log("Permissions denied");
+    // Optionally, show a dialog or message to the user
+  }
+}
+
   @override
   void initState() {
     super.initState();
     getAllMeetings();
+    // handlePermission();
   }
 
   @override
