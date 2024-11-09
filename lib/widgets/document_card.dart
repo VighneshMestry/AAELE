@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:aaele/quiz/screens/take_quiz_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DocumentCard extends ConsumerStatefulWidget {
@@ -21,6 +24,11 @@ class DocumentCard extends ConsumerStatefulWidget {
 }
 
 class _DocumentCardState extends ConsumerState<DocumentCard> {
+
+  List<String> tags = ["Assessment", "End Sem", "Weekly", "Assignment", "Feedback", "Mid Sem", "Exam", "Monthly"];
+
+  Random random = Random();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -162,29 +170,30 @@ class _DocumentCardState extends ConsumerState<DocumentCard> {
               child: Row(
                 children: [
                   const Text("Tags: "),
-                  ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    // itemCount: widget.document.tags.length,
-                    itemCount: 2,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          height: 10,
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.red),
-                          child: Text(
-                            // widget.document.tags[index],
-                            "Tag$index",
-                            style: const TextStyle(color: Colors.white),
+                  Expanded(
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      // physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: random.nextInt(4),
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            height: 10,
+                            padding: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.red),
+                            child: Text(
+                              // widget.document.tags[index],
+                              tags[random.nextInt(tags.length - 1)],
+                              style: const TextStyle(color: Colors.white),
+                            ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
                   Icon(Icons.add, color: Colors.grey.shade600),
                 ],

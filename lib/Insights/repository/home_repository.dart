@@ -27,7 +27,6 @@ class HomeRepository {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        log("Notes Received in Repository");
         return data['notes']['aiNotes'];
       } else {
         log('Error: ${response.statusCode} - ${response.reasonPhrase}');
@@ -39,37 +38,9 @@ class HomeRepository {
     }
   }
 
-//   Future<void> getNotesForMeeting(int meetid) async {
-//   final url = Uri.parse('https://mood-lens-server.onrender.com/api/v1/notes/get_note');
-//   final headers = {'Content-Type': 'application/json'};
-//   final body = jsonEncode({'meet_id': meetid});
-
-//   try {
-//     final response = await http.post(
-//       url,
-//       headers: headers,
-//       body: body,
-//     );
-
-  // if (response.statusCode == 200) {
-  //   // Successful response
-  //   final data = jsonDecode(response.body);
-  //   log('Note: $data');
-  // } else {
-  //   // Error response
-  //   log('Error: ${response.statusCode} - ${response.reasonPhrase}');
-  // }
-//   } catch (e) {
-//     print('Exception: $e');
-//   }
-// }
-
   Future getPersonalReport(
       BuildContext context, int studentId, int meetId) async {
     try {
-      // String link =
-      //   "C:/Users/Vighnesh/Flutter/Projects/ml_project/assets/demo.pdf";
-      print("Dart api run");
       http.Response res = await http.post(
         Uri.parse("$url/student_reports/personal_meeting_report"),
         headers: {
@@ -80,14 +51,14 @@ class HomeRepository {
           "meet_id": meetId,
         }),
       );
-      print("Dart api finish");
       List<Report> reports = [];
-      final parsed = json.decode(res.body)['reports'] as List<dynamic>;
-      reports = parsed.map<Report>((json) => Report.fromJson(json)).toList();
+      final reportJson = json.decode(res.body)['report'];
+      Report report = Report.fromJson(reportJson);
+      reports.add(report);
       return reports;
     } catch (e) {
       print("Error in the services catch block");
-      print(e.toString());
+      log(e.toString());
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.toString())));

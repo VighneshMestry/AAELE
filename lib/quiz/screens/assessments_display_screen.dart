@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:aaele/Insights/repository/home_repository.dart';
 import 'package:aaele/classroom/widgets/subject_card.dart';
 import 'package:aaele/constants/constants.dart';
@@ -16,10 +18,10 @@ class AssessmentsDisplayScreen extends ConsumerStatefulWidget {
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _LecturesDisplayScreenState();
+      AssessmentsDisplayScreenState();
 }
 
-class _LecturesDisplayScreenState
+class AssessmentsDisplayScreenState
     extends ConsumerState<AssessmentsDisplayScreen> {
   List<MeetingModel> allMeetings = [];
   String? userName = "";

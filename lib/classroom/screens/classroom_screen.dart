@@ -37,7 +37,6 @@ class _ClassroomScreenState extends ConsumerState<ClassroomScreen> {
 
   void getNotesForMeeting(int meetId) async {
     final homeController = ref.read(homeControllerProvider.notifier);
-    log("Client");
     notes = await homeController.getNotesForMeeting(meetId);
   }
 

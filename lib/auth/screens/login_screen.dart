@@ -40,7 +40,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       isLoading = false;
     });
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => const CustomBottomBar()),
+        MaterialPageRoute(builder: (context) => CustomBottomBar(role: prefs.getString("role") ?? "Student",)),
         (Route<dynamic> route) => false);
   }
 

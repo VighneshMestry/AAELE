@@ -67,7 +67,6 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
   // Update _sendChatMessage to include the full context of previous chats
   Future<void> _sendChatMessage(String message) async {
     try {
-      log("Reaches");
       // Add user's message to the chat history
       _chatHistory.add({'role': 'user', 'content': message});
 
@@ -101,7 +100,6 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
           createdAt: DateTime.now(),
           text: markdown2.data.replaceAll("*", ""));
       setState(() {
-        log(test2.text);
         messages = [test2, ...messages];
       });
       _generatedContent.add((image: null, text: text, fromUser: false));

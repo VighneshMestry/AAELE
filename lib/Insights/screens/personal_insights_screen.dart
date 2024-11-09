@@ -9,9 +9,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../repository/home_repository.dart';
 
-  
-
-
 class PersonalInsightsScreen extends ConsumerStatefulWidget {
   final int meetingId;
   final String userName;
@@ -22,30 +19,39 @@ class PersonalInsightsScreen extends ConsumerStatefulWidget {
   }) : super(key: key);
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _PersonalInsightsScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _PersonalInsightsScreenState();
 }
 
-class _PersonalInsightsScreenState extends ConsumerState<PersonalInsightsScreen> {
+class _PersonalInsightsScreenState
+    extends ConsumerState<PersonalInsightsScreen> {
   List<Report> reports = [];
   void getPersonalReport() async {
     HomeRepository homeRepository = HomeRepository();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int? studentId = prefs.getInt("student_id");
-    reports = await homeRepository.getPersonalReport(context, studentId!, widget.meetingId);
-    calculateOverallEmotionPercentage(reports[0].textEmotions, reports[0].videoEmotions, reports[0].audioEmotions);
+    reports = await homeRepository.getPersonalReport(
+        context, studentId!, widget.meetingId);
+    calculateOverallEmotionPercentage(reports[0].textEmotions,
+        reports[0].videoEmotions, reports[0].audioEmotions);
     setState(() {});
   }
 
   String finalOverallName = "";
   double finalOverallPercentage = 0.0;
-  void calculateOverallEmotionPercentage(List<Emotion> textEmotions, List<Emotion> videoEmotions, List<Emotion> audiEmotions) {
+  void calculateOverallEmotionPercentage(List<Emotion> textEmotions,
+      List<Emotion> videoEmotions, List<Emotion> audiEmotions) {
     double maxValue = 0;
     int maxIndex = -1;
     int totalValue = 0;
     List<double> value = [
-      textEmotions[0].happy + videoEmotions[0].happy + audiEmotions[0].happy ,
-      textEmotions[0].surprised + videoEmotions[0].surprised + audiEmotions[0].surprised,
-      textEmotions[0].confused + videoEmotions[0].confused + audiEmotions[0].confused,
+      textEmotions[0].happy + videoEmotions[0].happy + audiEmotions[0].happy,
+      textEmotions[0].surprised +
+          videoEmotions[0].surprised +
+          audiEmotions[0].surprised,
+      textEmotions[0].confused +
+          videoEmotions[0].confused +
+          audiEmotions[0].confused,
       textEmotions[0].bored + videoEmotions[0].bored + audiEmotions[0].bored,
       textEmotions[0].pnf + videoEmotions[0].pnf + audiEmotions[0].pnf
     ];
@@ -85,11 +91,8 @@ class _PersonalInsightsScreenState extends ConsumerState<PersonalInsightsScreen>
     getPersonalReport();
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -101,8 +104,9 @@ class _PersonalInsightsScreenState extends ConsumerState<PersonalInsightsScreen>
               Padding(
                 padding: const EdgeInsets.only(left: 8.0),
                 child: Text(
-                  "${widget.userName} seems to be $finalOverallName in this lecture",
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  reports.isEmpty ? "" : "${widget.userName} was present in this lecture with ${reports[0].presentPercentage}% presence",
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
               const SizedBox(height: 8),
@@ -110,17 +114,21 @@ class _PersonalInsightsScreenState extends ConsumerState<PersonalInsightsScreen>
                 padding: const EdgeInsets.only(left: 8.0),
                 child: Text(
                   "$finalOverallName: ${finalOverallPercentage.round()}%",
-                  style: const TextStyle(fontSize: 32, fontWeight: FontWeight.w900),
+                  style: const TextStyle(
+                      fontSize: 32, fontWeight: FontWeight.w900),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0),
-                child: Text("Last 5 minutes",
-                    style: TextStyle(fontSize: 15, color: Colors.blue.shade200)),
+                child: Text("${widget.userName} seems to be $finalOverallName in this lecture",
+                    style:
+                        const TextStyle(fontSize: 15)),
               ),
               const SizedBox(height: 50),
               reports.isEmpty
-                  ? const Center(child: SpinKitSpinningLines(color: Colors.blue, size: 60),)
+                  ? const Center(
+                      child: SpinKitSpinningLines(color: Colors.blue, size: 60),
+                    )
                   : ((reports[0].textEmotions[0].bored == 0 &&
                           reports[0].textEmotions[0].happy == 0 &&
                           reports[0].textEmotions[0].confused == 0 &&
@@ -133,7 +141,9 @@ class _PersonalInsightsScreenState extends ConsumerState<PersonalInsightsScreen>
                           sectionIndex: 0)),
               const SizedBox(height: 20),
               reports.isEmpty
-                  ? const Center(child: SpinKitSpinningLines(color: Colors.blue, size: 60),)
+                  ? const Center(
+                      child: SpinKitSpinningLines(color: Colors.blue, size: 60),
+                    )
                   : ((reports[0].videoEmotions[0].bored == 0 &&
                           reports[0].videoEmotions[0].happy == 0 &&
                           reports[0].videoEmotions[0].confused == 0 &&
@@ -146,7 +156,9 @@ class _PersonalInsightsScreenState extends ConsumerState<PersonalInsightsScreen>
                           sectionIndex: 1)),
               const SizedBox(height: 20),
               reports.isEmpty
-                  ? const Center(child: SpinKitSpinningLines(color: Colors.blue, size: 60),)
+                  ? const Center(
+                      child: SpinKitSpinningLines(color: Colors.blue, size: 60),
+                    )
                   : ((reports[0].audioEmotions[0].bored == 0 &&
                           reports[0].audioEmotions[0].happy == 0 &&
                           reports[0].audioEmotions[0].confused == 0 &&
