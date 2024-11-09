@@ -69,7 +69,7 @@ class HomeRepository {
     try {
       http.Response res = await http.post(
         Uri.parse(
-            "https://mood-lens-server.onrender.com/api/v1/student_reports/meetings"),
+            "$url/student_reports/meetings"),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -97,7 +97,7 @@ class HomeRepository {
       print("Dart api run");
       http.Response res = await http.post(
         Uri.parse(
-            "https://mood-lens-server.onrender.com/api/v1/student_reports/overall_meeting_report"),
+            "$url/student_reports/overall_meeting_report"),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -129,7 +129,7 @@ class HomeRepository {
       print("Dart api run");
       http.Response res = await http.post(
         Uri.parse(
-            "https://mood-lens-server.onrender.com/api/v1/student_reports/get_meeting_timestamps"),
+            "$url/student_reports/get_meeting_timestamps"),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -165,7 +165,7 @@ class HomeRepository {
       print("Dart api run");
       http.Response res = await http.post(
         Uri.parse(
-            "https://mood-lens-server.onrender.com/api/v1/student_reports/generate_conclusion"),
+            "$url/student_reports/generate_conclusion"),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
         },

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:aaele/constants/constants.dart';
 import 'package:aaele/widgets/snackbar.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:dash_chat_2/dash_chat_2.dart';
@@ -111,7 +112,7 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
     currentUser = ChatUser(id: "1", firstName: widget.studentName);
     _model = GenerativeModel(
       model: 'gemini-1.5-flash-latest',
-      apiKey: "AIzaSyBuZr6PhkGpecYjISGJ3Q-Fce0oj5NppPA",
+      apiKey: GEMINI_API_KEY,
     );
     _chat = _model.startChat();
 
