@@ -16,3 +16,10 @@ snackBar(String title, String message, ContentType contentType) {
     ),
   );
 }
+
+featureComingSoonSnackBar(BuildContext context) {
+  return ScaffoldMessenger.of(context)
+    ..hideCurrentSnackBar()
+    ..showSnackBar(
+        snackBar('On Snap!', 'Feature Coming soon! :)', ContentType.help));
+}

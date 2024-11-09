@@ -1,8 +1,7 @@
-import 'package:aaele/profile/screens/lectures_display_screen.dart';
+import 'package:aaele/quiz/screens/assessments_display_screen.dart';
 import 'package:aaele/classroom/screens/classroom_screen.dart';
 import 'package:aaele/Insights/screens/attendance_screen.dart';
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -21,7 +20,7 @@ class _CustomBottomBarState extends ConsumerState<CustomBottomBar> {
 
   var screens = [
     const ClassroomScreen(),
-    const LecturesDisplayScreen(),
+    const AssessmentsDisplayScreen(),
     const AttendanceScreen(),
   ];
 

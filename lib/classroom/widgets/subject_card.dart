@@ -79,15 +79,6 @@ class SubjectCard extends ConsumerWidget {
                               overflow: TextOverflow.ellipsis),
                         ),
                       ),
-                      // (subject.subjectJoiningCode.isNotEmpty)
-                      //     ? Text(
-                      //         "Subject Joining code: ${subject.subjectJoiningCode}",
-                      //         style: const TextStyle(
-                      //             color: Colors.white,
-                      //             fontSize: 14,
-                      //             overflow: TextOverflow.ellipsis),
-                      //       )
-                      //     : const SizedBox(),
                     ],
                   )
                 ],
