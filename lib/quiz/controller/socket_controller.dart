@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:aaele/constants/constants.dart';
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -17,7 +18,7 @@ class SocketController extends StateNotifier<List<ChatMessage>> {
   }
 
   // final String serverUrl = 'ws://192.168.0.102:5000';
-  final String serverUrl = "wss://mood-lens-server.onrender.com";
+  final String serverUrl = socketUrl;
   // final String testId = "6719fb40f1230bb78e7c4740";
   late io.Socket socket;
   FlutterTts _flutterTts = FlutterTts();
@@ -43,10 +44,11 @@ class SocketController extends StateNotifier<List<ChatMessage>> {
   );
 
   void _initSocket() {
-    socket = io.io(serverUrl, <String, dynamic>{
-      'transports': ['websocket'],
-      'autoConnect': false,
-    });
+    socket = io.io(serverUrl, io.OptionBuilder()
+            .setTransports(['websocket'])
+            .setExtraHeaders({'foo':'bar'})
+            .enableReconnection()
+            .build());
 
     socket.connect();
 

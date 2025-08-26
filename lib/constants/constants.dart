@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-String url = "https://mood-lens-server.onrender.com/api/v1";
+// String url = "https://mood-lens-server.onrender.com/api/v1"; -- Main server url on render.com
+String url = "http://192.168.0.101:5000/api/v1";
+String socketUrl = "http://192.168.0.101:5000/api/v1";
 
 String GEMINI_API_KEY = "AIzaSyBuZr6PhkGpecYjISGJ3Q-Fce0oj5NppPA";
 
