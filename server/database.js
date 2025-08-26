@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 const colors = require('colors');
+require('dotenv').config();
 
 
-const connUrl = `mongodb+srv://chrisdias2311:Kalvasai23!@cluster0.ohe32oi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
+const connUrl = process.env.MONGO_URL
 // const connUrl = `mongodb+srv://chrisdias2311:Kalvasai23!@cluster0.f2sym3y.mongodb.net/?retryWrites=true&w=majority`
 
 const connectDB = async () => {
