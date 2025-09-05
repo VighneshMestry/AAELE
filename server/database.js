@@ -4,7 +4,6 @@ require('dotenv').config();
 
 
 const connUrl = process.env.MONGO_URL
-// const connUrl = `mongodb+srv://chrisdias2311:Kalvasai23!@cluster0.f2sym3y.mongodb.net/?retryWrites=true&w=majority`
 
 const connectDB = async () => {
     try {

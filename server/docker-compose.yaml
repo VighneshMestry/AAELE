@@ -1,0 +1,32 @@
+services:
+  
+  aaele_app:
+    build: .
+    container_name: aaele_node_server
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - backend
+    environment:
+      # uncomment when using a docker container for the mongo server
+      # - MONGO_URL=mongodb://mongo_server:27017/database
+      - GEMINI_API_KEY=
+      - NEWS_API_KEY=
+    command: npm start
+
+  # In case using a docker container for the mongo server
+  # mongo_server:
+  #   image: mongo
+  #   container_name: mongo_server
+  #   ports:
+  #     - "27017:27017"
+  #   networks:
+  #     - backend
+  #   volumes:
+  #     - \path\to\save\data\in\local_storage:/data/db
+
+networks:
+  backend:
